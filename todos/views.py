@@ -1,7 +1,38 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from . models import Todo
 # Create your views here.
 
 
 def index(request):
-    return render(request, 'index.html')
+    todos = Todo.object.all()
+    context = {
+        'todos': todos,
+    }
+    return render(request, 'index.html', context)
+
+
+def new(request):
+    return render(request, 'new.html')
+
+
+def create(request):
+    author = request.POST.get('author')
+    title = request.POST.get('title')
+    content = request.POST. get('content')
+    due_date = request.POST.get('due-date')
+
+    # todo = Todo()
+    # todo.title = title
+    # todo.save()
+
+    # todo = Todo(title=title, content=content)
+    # todo.save()
+
+    todo = Todo.objects.create(
+        author=author,
+        title=title,
+        content=content,
+        due_date=due_date
+    )
+
+    return redirect('/todos/')
