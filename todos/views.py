@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from . models import Todo
+from .models import Todo
 # Create your views here.
 
 
 def index(request):
-    todos = Todo.object.all()
+    todos = Todo.objects.all()
     context = {
         'todos': todos,
     }
@@ -35,11 +35,11 @@ def create(request):
         due_date=due_date
     )
 
-    return redirect('/todos/')
+    return redirect('todos:index')
 
 
 def delete(request, id):
     todo = Todo.objects.get(id=id)
     todo.delete()
 
-    return redirect('/todos/')
+    return redirect('todos:index')
